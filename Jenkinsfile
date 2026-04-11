@@ -9,13 +9,13 @@ pipeline {
         jdk 'JDK17'     // Change 'jdk' to your Jenkins Tool Name
     }
 
-    stages {
-        stage('Checkout') {
-            steps {
-                // 'checkout scm' is the most reliable way to avoid branch errors
-                checkout scm
-            }
-        }
+   stage('Checkout') {
+    steps {
+        checkout scm
+        // This command lists all files in the current workspace
+        sh 'ls -R' 
+    }
+}
 
         stage('Build') {
             steps {
