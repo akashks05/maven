@@ -11,7 +11,7 @@ pipeline {
             steps {
                 // 'credentialsId' must match the ID you set in Jenkins
                 git credentialsId: 'github-token', 
-                    url: 'https://github.com/Naveen04jan/demo-app.git'
+                    url: 'https://github.com/akashks05/demo-app.git'
             }
         }
 
