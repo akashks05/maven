@@ -5,8 +5,8 @@ pipeline {
        globally, you can delete the 'tools' block entirely.
     */
     tools {
-        maven 'maven' // Change 'maven' to your Jenkins Tool Name
-        jdk 'jdk'     // Change 'jdk' to your Jenkins Tool Name
+        maven 'Maven3' // Change 'maven' to your Jenkins Tool Name
+        jdk 'JDK17'     // Change 'jdk' to your Jenkins Tool Name
     }
 
     stages {
