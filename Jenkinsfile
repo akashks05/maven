@@ -1,4 +1,3 @@
-
 pipeline {
     agent any
 
@@ -8,10 +7,11 @@ pipeline {
     }
 
     stages {
-
         stage('Checkout') {
             steps {
-                git 'https://github.com/Naveen04jan/demo-app.git'
+                // 'credentialsId' must match the ID you set in Jenkins
+                git credentialsId: 'github-token', 
+                    url: 'https://github.com/Naveen04jan/demo-app.git'
             }
         }
 
