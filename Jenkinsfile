@@ -1,21 +1,18 @@
 pipeline {
     agent any
 
-    /* If 'mvn' is already installed on your Jenkins server 
-       globally, you can delete the 'tools' block entirely.
-    */
     tools {
-        maven 'Maven3' // Change 'maven' to your Jenkins Tool Name
-        jdk 'JDK17'     // Change 'jdk' to your Jenkins Tool Name
+        // Ensure these match your "Global Tool Configuration" names
+        maven 'maven' 
+        jdk   'jdk'
     }
 
-   stage('Checkout') {
-    steps {
-        checkout scm
-        // This command lists all files in the current workspace
-        sh 'ls -R' 
-    }
-}
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
 
         stage('Build') {
             steps {
@@ -42,7 +39,6 @@ pipeline {
     post {
         success {
             echo 'Build Successful!'
-            // This captures your .jar file so you can see it in Jenkins
             archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: true
         }
         failure {
