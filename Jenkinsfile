@@ -2,47 +2,62 @@ pipeline {
     agent any
 
     tools {
-        // Ensure these match your "Global Tool Configuration" names
-        maven 'Maven3' 
-        jdk   'JDK17'
+        maven 'Maven'
+        jdk 'JDK21'
     }
 
     stages {
+
         stage('Checkout') {
             steps {
-                checkout scm
+                git branch: 'main',
+                    url: 'https://github.com/Naveen04jan/ven.git',
+                    credentialsId: 'github-token'
             }
         }
 
         stage('Build') {
             steps {
-                echo 'Cleaning and Compiling...'
                 sh 'mvn clean compile'
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Running Unit Tests...'
                 sh 'mvn test'
             }
         }
 
         stage('Package') {
             steps {
-                echo 'Creating JAR file...'
-                sh 'mvn package -DskipTests'
+                sh 'mvn package'
+            }
+        }
+
+        stage('Run Application') {
+            steps {
+                sh 'mvn exec:java -Dexec.mainClass="com.example.app.App"'
             }
         }
     }
 
+    
     post {
+
         success {
-            echo 'Build Successful!'
-            archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: true
+            emailext (
+                subject: "SUCCESS: ${JOB_NAME} #${BUILD_NUMBER}",
+                body: "Build succeeded!\nCheck: ${BUILD_URL}",
+                to: "naveenmys64@gmail.com"
+            )
         }
+
         failure {
-            echo 'Build Failed. Check the console output above.'
+            emailext (
+                subject: "FAILED: ${JOB_NAME} #${BUILD_NUMBER}",
+                body: "Build failed!\nCheck: ${BUILD_URL}",
+                to: "naveenmys64@gmail.com"
+            )
         }
     }
 }
